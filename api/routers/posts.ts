@@ -44,13 +44,14 @@ postsRouter.get(`/`, async (req, res) => {
 
 postsRouter.post("/", async (req, res) => {
   if (!req.body.message.trim() || !req.body.title.trim()) {
-    return res.status(400).send({ error: "All data must be present" });
+    return res
+      .status(400)
+      .send({ error: "All data must be present" });
   }
 
   const newPost: Post = {
     title: req.body.title,
     message: req.body.message,
-    img: req.body.img,
     id: crypto.randomUUID(),
     datetime: new Date().toISOString(),
   };
@@ -68,7 +69,7 @@ postsRouter.post("/", async (req, res) => {
 });
 
 postsRouter.delete(`/:id`, async (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
 
   const postToDelete = data.some((post) => post.id === id);
 
@@ -81,7 +82,10 @@ postsRouter.delete(`/:id`, async (req, res) => {
   const updatedData = data.filter((post) => post.id !== id);
 
   try {
-    await fs.writeFile(dbPath, JSON.stringify(updatedData));
+    await fs.writeFile(
+      dbPath,
+      JSON.stringify(updatedData),
+    );
 
     data = updatedData;
 
@@ -96,6 +100,7 @@ postsRouter.delete(`/:id`, async (req, res) => {
       error: "Error",
     });
   }
+
 });
 
 export default postsRouter;
