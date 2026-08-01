@@ -44,9 +44,7 @@ postsRouter.get(`/`, async (req, res) => {
 
 postsRouter.post("/", async (req, res) => {
   if (!req.body.message.trim() || !req.body.title.trim()) {
-    return res
-      .status(400)
-      .send({ error: "All data must be present" });
+    return res.status(400).send({ error: "All data must be present" });
   }
 
   const newPost: Post = {
@@ -67,6 +65,37 @@ postsRouter.post("/", async (req, res) => {
   }
   data.push(newPost);
   res.send(newPost);
+});
+
+postsRouter.delete(`/:id`, async (req, res) => {
+  const { id } = req.params;
+
+  const postToDelete = data.some((post) => post.id === id);
+
+  if (!postToDelete) {
+    return res.status(404).send({
+      error: "Post not found",
+    });
+  }
+
+  const updatedData = data.filter((post) => post.id !== id);
+
+  try {
+    await fs.writeFile(dbPath, JSON.stringify(updatedData));
+
+    data = updatedData;
+
+    return res.send({
+      message: "Post deleted",
+      id,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).send({
+      error: "Error",
+    });
+  }
 });
 
 export default postsRouter;

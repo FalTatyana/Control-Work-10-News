@@ -5,26 +5,33 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../app/store";
-import { fetchMessages } from "../../app/messagesSlice";
+import { deletePost, fetchPosts } from "../../app/postsSlice";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import { useNavigate } from "react-router-dom";
 
 const MessageCard = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const posts = useSelector((state: RootState) => state.messages.messages);
-  const loading = useSelector((state: RootState) => state.messages.loading);
+  const posts = useSelector((state: RootState) => state.posts.posts);
+  const loading = useSelector((state: RootState) => state.posts.loading);
 
   React.useEffect(() => {
-    dispatch(fetchMessages());
+    dispatch(fetchPosts());
   }, [dispatch]);
 
   if (loading) {
     return <h3>Loading...</h3>;
   }
 
-  const handleRead = (id) => {};
+  const handleRead = (id) => {
+    navigate(`/${id}`);
+  };
 
-  const handleDelete = (id) => {};
+  const handleDelete = async (id: string) => {
+    if (!id) return;
+    await dispatch(deletePost(id))
+  };
 
   return (
     <Stack sx={{ maxWidth: 750, mx: "auto", width: "100%" }}>

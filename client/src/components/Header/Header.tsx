@@ -10,7 +10,7 @@ const Header = () => {
         <AppBar position="static" sx={{backgroundColor: "#263238"}}>
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Chat
+              News
             </Typography>
           </Toolbar>
         </AppBar>

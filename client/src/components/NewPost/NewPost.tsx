@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import type { AppDispatch } from "../../app/store";
 import type { PostMessage } from "../../../types";
-import { addMessage, fetchMessages } from "../../app/messagesSlice";
 import Typography from "@mui/material/Typography";
+import { addPost, fetchPosts } from "../../app/postsSlice";
 
 const NewMessage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,8 +35,8 @@ const NewMessage = () => {
       message: form.message,
     };
 
-    await dispatch(addMessage(newMessage));
-    await dispatch(fetchMessages());
+    await dispatch(addPost(newMessage));
+    await dispatch(fetchPosts());
     setForm({
       title: "",
       message: "",
