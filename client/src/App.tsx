@@ -8,7 +8,7 @@ function App() {
     <Layout>
       <Routes>
         <Route
-          path={"/messages"}
+          path={"/"}
           element={
             <>
               <NewMessage /> 

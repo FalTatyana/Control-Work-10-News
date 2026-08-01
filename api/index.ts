@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
-import messagesRouter from "./routers/messages.js";
+import postsRouter from "./routers/posts.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use('/', messagesRouter);
+app.use('/', postsRouter);
 
 const port = 8000;
 

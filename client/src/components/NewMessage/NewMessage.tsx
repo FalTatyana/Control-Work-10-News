@@ -7,12 +7,13 @@ import { toast } from "react-toastify";
 import type { AppDispatch } from "../../app/store";
 import type { PostMessage } from "../../../types";
 import { addMessage, fetchMessages } from "../../app/messagesSlice";
+import Typography from "@mui/material/Typography";
 
 const NewMessage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [form, setForm] = useState<PostMessage>({
-    author: "",
+    title: "",
     message: "",
   });
 
@@ -24,38 +25,41 @@ const NewMessage = () => {
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!form.author.trim() || !form.message.trim()) {
+    if (!form.title.trim() || !form.message.trim()) {
       toast.error("Enter name and message");
       return;
     }
 
     const newMessage = {
-      author: form.author,
+      title: form.title,
       message: form.message,
     };
 
     await dispatch(addMessage(newMessage));
     await dispatch(fetchMessages());
     setForm({
-      author: "",
+      title: "",
       message: "",
     });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack sx={{ maxWidth: 600 }}>
+      <Stack sx={{ maxWidth: 600, mx: "auto" }}>
+        <Typography variant="h4" component="div">
+          Add new post
+        </Typography>
         <TextField
-          label="Enter your name"
+          label="Enter title"
           variant="outlined"
-          id="author"
-          name="author"
+          id="title"
+          name="title"
           onChange={handleChange}
-          value={form.author}
+          value={form.title}
           sx={{ mb: 2 }}
         />
         <TextField
-          label="Enter new message"
+          label="Enter new post"
           variant="outlined"
           id="message"
           name="message"
@@ -64,7 +68,7 @@ const NewMessage = () => {
           sx={{ mb: 2 }}
         />
         <Button type="submit" variant="outlined" sx={{ maxWidth: 200, mb: 7 }}>
-          Add message
+          Add new post
         </Button>
       </Stack>
     </form>

@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import axiosApi from "../../axiosApi";
-import { type Message, type PostMessage } from "../../types.js";
+import { type Post, type PostMessage } from "../../types.js";
 import dayjs from "dayjs";
 
 interface MessagesState {
-  messages: Message[];
+  messages: Post[];
   loading: boolean;
 }
 
@@ -15,7 +15,7 @@ const initialState: MessagesState = {
 };
 
 export const fetchMessages = createAsyncThunk("messages/fetchAll", async () => {
-  const response = await axiosApi.get<Message[]>("/messages");
+  const response = await axiosApi.get<Post[]>("/");
 
   return response.data.map((message) => ({
     ...message,
@@ -26,7 +26,7 @@ export const fetchMessages = createAsyncThunk("messages/fetchAll", async () => {
 export const addMessage = createAsyncThunk(
   "message/addMessage",
   async (message: PostMessage) => {
-    const response = await axiosApi.post<Message>(`/messages`, message);
+    const response = await axiosApi.post<Post>(`/`, message);
     return response.data;
   }
 );
